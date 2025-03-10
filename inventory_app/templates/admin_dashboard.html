@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<div style="position: fixed; top: 10px; left: 10px; background-color: #f8f9fa; padding: 5px 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.2);">
+    <small style="color: #333;">Tap the back button on the top left to log out.</small>
+</div>
 
 <head>
     <meta charset="UTF-8">
@@ -33,7 +36,6 @@
     <a href="{% url 'person_add' %}" class="btn btn-primary btn-custom">Manage Soldiers</a>
     <a href="{% url 'assign_gun' %}" class="btn btn-primary btn-custom">Issue Guns</a>
     <a href="{% url 'issued_guns_list' %}" class="btn btn-primary btn-custom">View Issued Guns</a>
-    <a href="{% url 'logout' %}" class="btn btn-danger btn-custom">Logout</a>
 </div>
 
 </body>
@@ -44,3 +46,5 @@
     <td>{{ assignment.person.name }}</td>
     <td>{{ assignment.date_assigned|date:"Y-m-d" }}</td>
 </tr>
+
+

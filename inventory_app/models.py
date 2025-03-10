@@ -45,8 +45,12 @@ class Assignment(models.Model):
     gun = models.ForeignKey(Gun, on_delete=models.CASCADE)
     date_assigned = models.DateTimeField(auto_now_add=True)
     date_returned = models.DateTimeField(null=True, blank=True)
-    requested = models.BooleanField(default=False)  # New field to track requests
+    requested = models.BooleanField(default=False)  # Field to track if gun is requested
 
     def __str__(self):
         status = " (requested)" if self.requested else ""
         return f"{self.gun.name} assigned to {self.person.name}{status}"
+
+
+
+

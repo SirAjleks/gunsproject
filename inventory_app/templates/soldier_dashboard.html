@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<div style="position: fixed; top: 10px; left: 10px; background-color: #f8f9fa; padding: 5px 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.2);">
+    <small style="color: #333;">Tap the back button on the top left to log out.</small>
+</div>
 
 <head>
     <meta charset="UTF-8">
@@ -30,7 +33,6 @@
     <h2 class="text-center">Soldier Dashboard</h2>
     <a href="{% url 'view_all_assigned_guns' %}" class="btn btn-primary btn-custom">View Assigned Guns</a>
     <a href="{% url 'request_gun' %}" class="btn btn-primary btn-custom">Request Guns</a>
-    <a href="{% url 'logout' %}" class="btn btn-danger btn-custom">Logout</a>
 </div>
 
 </body>

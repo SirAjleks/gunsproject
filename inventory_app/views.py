@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Gun, Person, Rank, Assignment
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
+from .models import Gun, Person, Rank, Assignment
 
 @login_required
 def dashboard(request):
@@ -191,22 +189,41 @@ def is_soldier(user):
     return user.groups.filter(name='Soldier').exists()
 
 
+# Check if user is in 'Soldier' group
+def is_soldier(user):
+    return user.groups.filter(name='Soldier').exists()
+
+from django.http import JsonResponse  # Import JsonResponse if not already imported
+
 @login_required
 @user_passes_test(is_soldier)
 def request_gun(request):
-    # Get the logged-in soldier's person profile
-    person = Person.objects.get(user=request.user)
-    # Show guns that are not assigned and match the soldier's rank
-    eligible_guns = Gun.objects.filter(is_assigned=False)
-
     if request.method == 'POST':
+        person = Person.objects.get(user=request.user)
         gun_id = request.POST.get('gun_id')
+        action = request.POST.get('action')
         gun = Gun.objects.get(id=gun_id)
-        # Create a request entry by setting requested=True
-        Assignment.objects.create(person=person, gun=gun, requested=True)
-        return redirect('soldier_dashboard')
 
-    return render(request, 'request_gun.html', {'eligible_guns': eligible_guns})
+        if action == 'request':
+            # Create a request entry by setting requested=True
+            Assignment.objects.create(person=person, gun=gun, requested=True)
+        elif action == 'cancel':
+            # Cancel the request by deleting the assignment entry
+            Assignment.objects.filter(person=person, gun=gun, requested=True).delete()
+
+        return JsonResponse({'status': 'success'})  # Respond with JSON for AJAX
+
+    # Handle GET request to load the page
+    person = Person.objects.get(user=request.user)
+    eligible_guns = Gun.objects.filter(is_assigned=False)
+    requested_guns = Assignment.objects.filter(person=person, requested=True, date_returned__isnull=True)
+    requested_gun_ids = [assignment.gun.id for assignment in requested_guns]
+
+    return render(request, 'request_gun.html', {
+        'eligible_guns': eligible_guns,
+        'requested_gun_ids': requested_gun_ids
+    })
+
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Assignment
