@@ -1,0 +1,36 @@
+{% block content %}
+<h2>All Guns</h2>
+<a href="{% url 'gun_add' %}" class="btn btn-primary mb-2">Add New Gun</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Gun Name</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for gun in guns %}
+      <tr>
+        <td>{{ gun.name }}</td>
+        <td>
+          {% if gun.holder %}
+            Issued to {{ gun.holder }}
+          {% else %}
+            Available
+          {% endif %}
+        </td>
+        <td>
+          {% if not gun.holder %}
+            <!-- If available, option to issue it -->
+            <a href="{% url 'assign_gun' %}" class="btn btn-sm btn-success">Issue</a>
+          {% else %}
+            <!-- If issued, option to return it -->
+            <a href="{% url 'return_gun' gun.id %}" class="btn btn-sm btn-warning">Return</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

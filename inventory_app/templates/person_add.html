@@ -1,0 +1,18 @@
+{% block content %}
+<h2>Add New Person</h2>
+<form method="post" class="form-group">
+  {% csrf_token %}
+  <label for="person_name">Name:</label>
+  <input type="text" id="person_name" name="name" class="form-control" required>
+  
+  <label for="person_rank">Rank:</label>
+  <select id="person_rank" name="rank" class="form-control" required>
+    <option value="" disabled selected>-- Select Rank --</option>
+    {% for rank in ranks %}
+      <option value="{{ rank.id }}">{{ rank.name }}</option>
+    {% endfor %}
+  </select>
+  
+  <button type="submit" class="btn btn-success mt-2">Add Person</button>
+</form>
+{% endblock content %}

@@ -1,0 +1,4 @@
+Django==5.1.7
+djangorestframework==3.14.0  # If you use Django REST Framework
+gunicorn  # For serving the app on Render
+whitenoise  # For handling static files

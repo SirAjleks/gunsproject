@@ -1,0 +1,14 @@
+{% block content %}
+<h2>Add New Gun</h2>
+<form method="post" class="form-group">
+  {% csrf_token %}
+  <label for="gun_name">Gun Name:</label>
+  <input type="text" id="gun_name" name="name" class="form-control" required>
+  
+  <!-- If category field is used -->
+  {# <label for="gun_cat">Category:</label>
+  <input type="text" id="gun_cat" name="category" class="form-control"> #}
+  
+  <button type="submit" class="btn btn-success mt-2">Add Gun</button>
+</form>
+{% endblock content %}
