@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Issued Guns List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .btn-back {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="text-center">Issued Guns List</h2>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Gun Name</th>
+                <th>Category</th>
+                <th>Issued To</th>
+                <th>Issued Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if issued_guns %}
+                {% for assignment in issued_guns %}
+                    <tr>
+                        <td>{{ assignment.gun.name }}</td>
+                        <td>{{ assignment.gun.category }}</td>
+                        <td>{{ assignment.person.name }}</td>
+                        <td>{{ assignment.date_assigned|date:"Y-m-d" }}</td>
+                        <td>
+                            {% if assignment.requested %}
+                                Requested
+                            {% else %}
+                                Issued
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No guns issued</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View All Assigned Guns</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .btn-back {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="text-center">All Assigned Guns</h2>
+    <a href="{% url 'soldier_dashboard' %}" class="btn btn-secondary btn-back">Back to Dashboard</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Gun Name</th>
+                <th>Category</th>
+                <th>Assigned To</th>
+                <th>Assigned Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if assignments %}
+                {% for assignment in assignments %}
+                    <tr>
+                        <td>{{ assignment.gun.name }}</td>
+                        <td>{{ assignment.gun.category }}</td>
+                        <td>{{ assignment.person.name }}</td>
+                        <td>{{ assignment.date_assigned|date:"Y-m-d" }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No guns assigned</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,18 +1,98 @@
-{% block content %}
-<h2>Add New Person</h2>
-<form method="post" class="form-group">
-  {% csrf_token %}
-  <label for="person_name">Name:</label>
-  <input type="text" id="person_name" name="name" class="form-control" required>
-  
-  <label for="person_rank">Rank:</label>
-  <select id="person_rank" name="rank" class="form-control" required>
-    <option value="" disabled selected>-- Select Rank --</option>
-    {% for rank in ranks %}
-      <option value="{{ rank.id }}">{{ rank.name }}</option>
-    {% endfor %}
-  </select>
-  
-  <button type="submit" class="btn btn-success mt-2">Add Person</button>
-</form>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Soldiers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .btn-back {
+            margin-bottom: 20px;
+        }
+        .form-section, .list-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="text-center">Manage Soldiers</h2>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+
+    <!-- Add a New Soldier Section -->
+    <div class="form-section">
+        <h4>Add a New Soldier</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Soldier Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter soldier name" required>
+            </div>
+            <div class="form-group">
+                <label for="rank">Rank</label>
+                <select class="form-control" id="rank" name="rank" required>
+                    <option value="" disabled selected>Select rank</option>
+                    {% for rank in ranks %}
+                        <option value="{{ rank.id }}">{{ rank.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Soldier</button>
+        </form>
+    </div>
+
+    <!-- List of Existing Soldiers Section -->
+    <div class="list-section">
+        <h4>Existing Soldiers</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Soldier Name</th>
+                    <th>Rank</th>
+                    <th>Assigned Guns</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if soldiers %}
+                    {% for soldier in soldiers %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ soldier.name }}</td>
+                            <td>{{ soldier.rank.name }}</td>
+                            <td>
+                                {% if soldier.assignment_set.exists %}
+                                    Assigned
+                                {% else %}
+                                    None
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No soldiers available</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

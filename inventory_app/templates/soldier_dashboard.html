@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Soldier Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+    <h2 class="text-center">Soldier Dashboard</h2>
+    <a href="{% url 'view_all_assigned_guns' %}" class="btn btn-primary btn-custom">View Assigned Guns</a>
+    <a href="{% url 'request_gun' %}" class="btn btn-primary btn-custom">Request Guns</a>
+    <a href="{% url 'logout' %}" class="btn btn-danger btn-custom">Logout</a>
+</div>
+
+</body>
+</html>

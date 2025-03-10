@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+    <h2 class="text-center">Admin Dashboard</h2>
+    <a href="{% url 'gun_add' %}" class="btn btn-primary btn-custom">Manage Guns</a>
+    <a href="{% url 'person_add' %}" class="btn btn-primary btn-custom">Manage Soldiers</a>
+    <a href="{% url 'assign_gun' %}" class="btn btn-primary btn-custom">Issue Guns</a>
+    <a href="{% url 'issued_guns_list' %}" class="btn btn-primary btn-custom">View Issued Guns</a>
+    <a href="{% url 'logout' %}" class="btn btn-danger btn-custom">Logout</a>
+</div>
+
+</body>
+</html>
+
+<tr>
+    <td>{{ assignment.gun.name }}{% if assignment.requested %} (requested){% endif %}</td>
+    <td>{{ assignment.person.name }}</td>
+    <td>{{ assignment.date_assigned|date:"Y-m-d" }}</td>
+</tr>

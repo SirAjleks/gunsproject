@@ -1,23 +1,99 @@
-{% block content %}
-<h2>Issue a Gun</h2>
-<form method="post" class="form-group">
-  {% csrf_token %}
-  <label for="id_person">Select Person:</label>
-  <select name="person" id="id_person" class="form-control" required>
-    <option value="" disabled selected>-- Select Person --</option>
-    {% for person in people %}
-      <option value="{{ person.id }}">{{ person.name }} ({{ person.rank.name }})</option>
-    {% endfor %}
-  </select>
-  
-  <label for="id_gun">Select Gun:</label>
-  <select name="gun" id="id_gun" class="form-control" required>
-    <option value="" disabled selected>-- Select Gun --</option>
-    {% for gun in guns %}
-      <option value="{{ gun.id }}">{{ gun.name }}</option>
-    {% endfor %}
-  </select>
-  
-  <button type="submit" class="btn btn-success mt-3">Assign Gun</button>
-</form>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Issue Guns</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .btn-back {
+            margin-bottom: 20px;
+        }
+        .form-section, .list-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="text-center">Issue Guns</h2>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+
+    <!-- Issue a New Gun Section -->
+    <div class="form-section">
+        <h4>Issue a New Gun</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="person">Select Soldier</label>
+                <select class="form-control" id="person" name="person" required>
+                    <option value="" disabled selected>Select soldier</option>
+                    {% for person in people %}
+                        <option value="{{ person.id }}">{{ person.name }} ({{ person.rank.name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="gun">Select Gun</label>
+                <select class="form-control" id="gun" name="gun" required>
+                    <option value="" disabled selected>Select gun</option>
+                    {% for gun in guns %}
+                        <option value="{{ gun.id }}">{{ gun.name }} ({{ gun.category }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Issue Gun</button>
+        </form>
+    </div>
+
+    <!-- List of Issued Guns Section -->
+    <div class="list-section">
+        <h4>Issued Guns</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Gun Name</th>
+                    <th>Category</th>
+                    <th>Issued To</th>
+                    <th>Issued Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if issued_guns %}
+                    {% for assignment in issued_guns %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ assignment.gun.name }}</td>
+                            <td>{{ assignment.gun.category }}</td>
+                            <td>{{ assignment.person.name }} ({{ assignment.person.rank.name }})</td>
+                            <td>{{ assignment.date_assigned|date:"Y-m-d" }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No guns issued</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

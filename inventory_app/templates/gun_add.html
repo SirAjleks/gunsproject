@@ -1,14 +1,93 @@
-{% block content %}
-<h2>Add New Gun</h2>
-<form method="post" class="form-group">
-  {% csrf_token %}
-  <label for="gun_name">Gun Name:</label>
-  <input type="text" id="gun_name" name="name" class="form-control" required>
-  
-  <!-- If category field is used -->
-  {# <label for="gun_cat">Category:</label>
-  <input type="text" id="gun_cat" name="category" class="form-control"> #}
-  
-  <button type="submit" class="btn btn-success mt-2">Add Gun</button>
-</form>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Guns</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .btn-back {
+            margin-bottom: 20px;
+        }
+        .form-section, .list-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="text-center">Manage Guns</h2>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+
+    <!-- Add a New Gun Section -->
+    <div class="form-section">
+        <h4>Add a New Gun</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Gun Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter gun name" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" class="form-control" id="category" name="category" placeholder="Enter category">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Gun</button>
+        </form>
+    </div>
+
+    <!-- List of Existing Guns Section -->
+    <div class="list-section">
+        <h4>Existing Guns</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Gun Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if guns %}
+                    {% for gun in guns %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ gun.name }}</td>
+                            <td>{{ gun.category }}</td>
+                            <td>
+                                {% if gun.is_assigned %}
+                                    Issued
+                                {% else %}
+                                    Available
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No guns available</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

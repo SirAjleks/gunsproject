@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Request Gun</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="text-center">Request a Gun</h2>
+    <a href="{% url 'soldier_dashboard' %}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Gun Name</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gun in eligible_guns %}
+                    <tr>
+                        <td>{{ gun.name }}</td>
+                        <td>{{ gun.category }}</td>
+                        <td>
+                            <button type="submit" name="gun_id" value="{{ gun.id }}" class="btn btn-primary">Request</button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No guns available for request</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>
